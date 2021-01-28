@@ -1,5 +1,8 @@
 use bevy::prelude::*;
 
+pub const PLAYER_HEIGHT: f32 = 165.;
+pub const PLAYER_WIDTH: f32 = 90.;
+
 pub struct Player;
 pub struct PlayerMaterial(Handle<ColorMaterial>);
 pub struct PlayerState {
@@ -18,8 +21,8 @@ impl Default for PlayerState {
 
 pub fn init(
     commands: &mut Commands,
-    mut materials: ResMut<Assets<ColorMaterial>>,
-    asset_server: Res<AssetServer>,
+    mut materials: &mut ResMut<Assets<ColorMaterial>>,
+    asset_server: AssetServer,
 ) {
     let texture = asset_server.load("sprites/player.png");
 
@@ -34,7 +37,7 @@ pub fn spawn(commands: &mut Commands, materials: Res<PlayerMaterial>) {
     commands
         .spawn(SpriteBundle {
             material: materials.0.clone(),
-            sprite: Sprite::new(Vec2::new(90.0, 165.0)),
+            sprite: Sprite::new(Vec2::new(PLAYER_WIDTH, PLAYER_HEIGHT)),
             ..Default::default()
         })
         .with(Player);

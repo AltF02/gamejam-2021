@@ -12,6 +12,10 @@ pub fn init(
     let window = windows.get_primary_mut().unwrap();
 
     for mut transform in player_positions.iter_mut() {
+        if is_colliding_with_walls(window, &mut transform) {
+            return;
+        }
+
         if keyboard_input.pressed(KeyCode::A) {
             transform.translation.x -= 2.;
         }
@@ -33,9 +37,5 @@ pub fn init(
             "X: {}, Y: {}",
             transform.translation.x, transform.translation.y
         );
-
-        if is_colliding_with_walls(window, &transform) {
-            return;
-        }
     }
 }

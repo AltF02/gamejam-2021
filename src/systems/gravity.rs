@@ -12,6 +12,6 @@ pub fn init(
     }
 
     for mut transform in player_positions.iter_mut() {
-        transform.translation.y -= 3.;
+        transform.translation.y -= 4.;
     }
 }

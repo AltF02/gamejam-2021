@@ -1,3 +1,4 @@
+mod level;
 mod models;
 mod setup;
 mod systems;
@@ -37,7 +38,8 @@ fn main() {
             ..Default::default()
         })
         .add_startup_system(setup.system())
-        .add_startup_stage("game_setup", SystemStage::single(player::spawn.system()))
+        .add_startup_stage("level_setup", SystemStage::single(level::spawn.system()))
+        .add_startup_stage("player_setup", SystemStage::single(player::spawn.system()))
         .add_system(movement::init.system())
         .add_system(gravity::init.system())
         .add_plugins(DefaultPlugins)
