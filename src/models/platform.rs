@@ -9,7 +9,7 @@ pub struct PlatformMaterial(Handle<ColorMaterial>);
 
 pub fn init(
     commands: &mut Commands,
-    asset_server: AssetServer,
+    asset_server: &AssetServer,
     materials: &mut ResMut<Assets<ColorMaterial>>,
 ) {
     let platform_sprite = asset_server.load("sprites/platform.png");

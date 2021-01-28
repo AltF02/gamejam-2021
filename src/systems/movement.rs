@@ -1,6 +1,6 @@
 use crate::models::platform::Platform;
 use crate::models::player::{Player, PlayerState};
-use crate::systems::collision::{is_colliding_with_platform, is_colliding_with_walls};
+use crate::systems::collision::is_colliding_with_walls;
 use bevy::prelude::*;
 use bevy::sprite::collide_aabb::{collide, Collision};
 use log::debug;
@@ -57,9 +57,9 @@ pub fn init(
             player.jumping = false;
         }
 
-        // debug!(
-        //     "X: {}, Y: {}",
-        //     transform.translation.x, transform.translation.y
-        // );
+        debug!(
+            "X: {}, Y: {}",
+            transform.translation.x, transform.translation.y
+        );
     }
 }
