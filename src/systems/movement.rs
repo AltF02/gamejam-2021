@@ -4,6 +4,7 @@ use crate::systems::collision::is_colliding_with_walls;
 use bevy::prelude::*;
 use bevy::sprite::collide_aabb::{collide, Collision};
 use log::debug;
+use std::mem::discriminant;
 
 const SPEED: f32 = 3.;
 
@@ -21,35 +22,50 @@ pub fn init(
             return;
         }
 
-        if !player.grounded {
-            for (platform, sprite) in platforms.iter_mut() {
-                let collisions = collide(
-                    platform.translation,
-                    sprite.size,
-                    transform.translation,
-                    player_sprite.size,
-                );
+        let mut collided: Option<Collision> = None;
+        player.grounded = false;
 
-                if collisions.is_some() {
-                    player.grounded = true;
-                    return;
-                }
+        for (platform, sprite) in platforms.iter_mut() {
+            let collisions = collide(
+                platform.translation,
+                sprite.size,
+                transform.translation,
+                player_sprite.size,
+            );
 
-                player.grounded = false;
+            if let Some(collision) = collisions {
+                collided = Some(collision);
             }
         }
 
-        if keyboard_input.pressed(KeyCode::A) {
-            transform.translation.x -= SPEED;
-        }
-        if keyboard_input.pressed(KeyCode::D) {
-            transform.translation.x += SPEED;
-        }
-        if keyboard_input.pressed(KeyCode::S) && !player.grounded {
-            transform.translation.y -= SPEED;
+        if let Some(collision) = &collided {
+            match collision {
+                Collision::Bottom => player.grounded = true,
+                Collision::Top => transform.translation.y -= 0.5,
+                Collision::Left => transform.translation.x += 0.5,
+                Collision::Right => transform.translation.x -= 0.5,
+                _ => {}
+            }
         }
 
-        if keyboard_input.pressed(KeyCode::W) || keyboard_input.pressed(KeyCode::Space) {
+        let collision = collided.unwrap_or(Collision::Bottom);
+
+        // debug!("{:?}", &collision);
+
+        if keyboard_input.pressed(KeyCode::A)
+            && discriminant(&Collision::Left) != discriminant(&collision)
+        {
+            transform.translation.x -= SPEED;
+        }
+        if keyboard_input.pressed(KeyCode::D)
+            && discriminant(&Collision::Right) != discriminant(&collision)
+        {
+            transform.translation.x += SPEED;
+        }
+
+        if keyboard_input.pressed(KeyCode::W)
+            && discriminant(&Collision::Top) != discriminant(&collision)
+        {
             transform.translation.y += SPEED;
             player.jumping = true;
             player.grounded = false;

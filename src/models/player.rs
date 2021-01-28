@@ -6,9 +6,11 @@ pub const PLAYER_WIDTH: f32 = 54.;
 
 pub struct Player;
 pub struct PlayerMaterial(Handle<ColorMaterial>);
+#[derive(Debug)]
 pub struct PlayerState {
     pub jumping: bool,
     pub grounded: bool,
+    pub collision: Option<Collision>,
 }
 
 impl Default for PlayerState {
@@ -16,6 +18,7 @@ impl Default for PlayerState {
         PlayerState {
             jumping: false,
             grounded: false,
+            collision: None,
         }
     }
 }

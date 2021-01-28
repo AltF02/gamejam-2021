@@ -26,8 +26,6 @@ pub fn init(
             if collision.is_some() {
                 explosion::spawn(commands, &materials);
             }
-
-            debug!("{:?}", collision);
         }
     }
 }

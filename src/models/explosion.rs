@@ -3,8 +3,8 @@ use bevy::prelude::*;
 pub struct Explosion;
 pub struct ExplosionMaterial(Handle<ColorMaterial>);
 
-pub const EXPLOSION_WIDTH: f32 = 200.;
-pub const EXPLOSION_HEIGHT: f32 = 200.;
+pub const EXPLOSION_WIDTH: f32 = 800.;
+pub const EXPLOSION_HEIGHT: f32 = 800.;
 
 pub fn init(
     commands: &mut Commands,
@@ -21,7 +21,6 @@ pub fn spawn(commands: &mut Commands, materials: &Res<ExplosionMaterial>) {
         .spawn(SpriteBundle {
             material: materials.0.clone(),
             sprite: Sprite::new(Vec2::new(EXPLOSION_WIDTH, EXPLOSION_HEIGHT)),
-            transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
             ..Default::default()
         })
         .with(Explosion);
