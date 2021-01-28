@@ -1,8 +1,6 @@
 use crate::models::player::{Player, PlayerState};
 use bevy::prelude::*;
 
-pub struct GravityTimer(pub Timer);
-
 pub fn init(
     mut player_positions: Query<&mut Transform, With<Player>>,
     mut player_state: ResMut<PlayerState>,

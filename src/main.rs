@@ -12,10 +12,9 @@ use bevy_diagnostic::{FrameTimeDiagnosticsPlugin, PrintDiagnosticsPlugin};
 use log::LevelFilter;
 use simple_logger::SimpleLogger;
 
-struct SnakeHead;
-struct Materials {
-    head_material: Handle<ColorMaterial>,
-}
+// TODO Make jetpack toggle
+// TODO Make gravity rng
+// TODO Add end game explosion...
 
 #[bevy_main]
 fn main() {
@@ -33,7 +32,7 @@ fn main() {
 
     App::build()
         .add_resource(WindowDescriptor {
-            title: "GameJam 2021 :D".to_string(),
+            title: "Rusty Rocket".to_string(),
             vsync: true,
             ..Default::default()
         })

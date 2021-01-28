@@ -1,7 +1,8 @@
 use bevy::prelude::*;
+use bevy::sprite::collide_aabb::Collision;
 
-pub const PLAYER_HEIGHT: f32 = 165.;
-pub const PLAYER_WIDTH: f32 = 90.;
+pub const PLAYER_HEIGHT: f32 = 135.;
+pub const PLAYER_WIDTH: f32 = 54.;
 
 pub struct Player;
 pub struct PlayerMaterial(Handle<ColorMaterial>);
@@ -14,17 +15,17 @@ impl Default for PlayerState {
     fn default() -> Self {
         PlayerState {
             jumping: false,
-            grounded: true,
+            grounded: false,
         }
     }
 }
 
 pub fn init(
     commands: &mut Commands,
-    mut materials: &mut ResMut<Assets<ColorMaterial>>,
+    materials: &mut ResMut<Assets<ColorMaterial>>,
     asset_server: AssetServer,
 ) {
-    let texture = asset_server.load("sprites/player.png");
+    let texture = asset_server.load("sprites/player_on.png");
 
     commands
         .insert_resource(PlayerMaterial(materials.add(texture.into())))
@@ -41,4 +42,8 @@ pub fn spawn(commands: &mut Commands, materials: Res<PlayerMaterial>) {
             ..Default::default()
         })
         .with(Player);
+}
+
+pub fn toggle_jetpack(toggle: bool, sprite: Sprite) {
+    let file = if toggle { "toggle_on" } else { "toggle_off" };
 }
