@@ -15,13 +15,13 @@ pub fn init(
     commands.insert_resource(PlateMaterial(materials.add(plate_sprite.into())));
 }
 
-pub fn spawn(commands: &mut Commands, materials: &Res<PlateMaterial>, pos: Vec2) {
+pub fn spawn(commands: &mut Commands, materials: &Res<PlateMaterial>, pos: &(f32, f32)) {
     commands
         .insert_resource(Plate)
         .spawn(SpriteBundle {
             material: materials.0.clone(),
             sprite: Sprite::new(Vec2::new(PLATE_WIDTH, PLATE_HEIGHT)),
-            transform: Transform::from_translation(Vec3::new(pos.x, pos.y, 0.)),
+            transform: Transform::from_translation(Vec3::new(pos.0, pos.1, 0.)),
             ..Default::default()
         })
         .with(Plate);

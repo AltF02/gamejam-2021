@@ -2,6 +2,7 @@ mod level;
 mod models;
 mod setup;
 mod systems;
+mod ui;
 
 use crate::models::player;
 use crate::setup::setup;
@@ -12,9 +13,12 @@ use bevy_diagnostic::{FrameTimeDiagnosticsPlugin, PrintDiagnosticsPlugin};
 use log::LevelFilter;
 use simple_logger::SimpleLogger;
 
+#[cfg(debug_assertions)]
+#[allow(unused_imports)]
+use bevy_dylib;
+
 // TODO Make jetpack toggle
 // TODO Make gravity rng
-// TODO Add end game explosion...
 
 #[bevy_main]
 fn main() {
@@ -42,8 +46,9 @@ fn main() {
         .add_system(movement::init.system())
         .add_system(gravity::init.system())
         .add_system(plates::init.system())
+        .add_system(ui::update_text_diagnostic.system())
         .add_plugins(DefaultPlugins)
         .add_plugin(FrameTimeDiagnosticsPlugin::default())
-        .add_plugin(PrintDiagnosticsPlugin::default())
+        // .add_plugin(PrintDiagnosticsPlugin::default())
         .run();
 }

@@ -12,5 +12,8 @@ default = ["bevy/dynamic"]
 [dependencies]
 bevy = "0.4"
 bevy_diagnostic = "0.4"
+bevy_dylib = "0.4"
+
+rand = "0.8.3"
 log = "0.4"
 simple_logger = "1.11"
