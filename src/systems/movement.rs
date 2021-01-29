@@ -1,6 +1,7 @@
 use crate::models::platform::Platform;
 use crate::models::player::{Player, PlayerState};
 use crate::systems::collision::is_colliding_with_walls;
+use crate::systems::gravity::GravityLevel;
 use bevy::prelude::*;
 use bevy::sprite::collide_aabb::{collide, Collision};
 use log::debug;
@@ -14,6 +15,7 @@ pub fn init(
     mut player: ResMut<PlayerState>,
     mut windows: ResMut<Windows>,
     mut platforms: Query<(&mut Transform, &Sprite), With<Platform>>,
+    gravity: Res<GravityLevel>,
 ) {
     let window = windows.get_primary_mut().unwrap();
 
@@ -66,16 +68,16 @@ pub fn init(
         if keyboard_input.pressed(KeyCode::W)
             && discriminant(&Collision::Top) != discriminant(&collision)
         {
-            transform.translation.y += SPEED;
+            transform.translation.y += SPEED.powf(2.) / gravity.0;
             player.jumping = true;
             player.grounded = false;
         } else {
             player.jumping = false;
         }
 
-        debug!(
-            "X: {}, Y: {}",
-            transform.translation.x, transform.translation.y
-        );
+        // debug!(
+        //     "X: {}, Y: {}",
+        //     transform.translation.x, transform.translation.y
+        // );
     }
 }

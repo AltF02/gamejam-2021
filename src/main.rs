@@ -18,7 +18,7 @@ use simple_logger::SimpleLogger;
 use bevy_dylib;
 
 // TODO Make jetpack toggle
-// TODO Make gravity rng
+// TODO Add death system
 
 #[bevy_main]
 fn main() {

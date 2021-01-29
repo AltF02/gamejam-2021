@@ -7,16 +7,18 @@ use crate::models::explosion;
 use crate::models::explosion::{Explosion, ExplosionMaterial};
 
 use crate::level;
+use crate::systems::gravity::GravityLevel;
 use log::debug;
 
 pub fn init(
     mut player_positions: Query<(&mut Transform, &Sprite), With<Player>>,
     mut plates: Query<(&mut Transform, &Sprite), With<Plate>>,
     commands: &mut Commands,
-    materials: Res<ExplosionMaterial>,
+    // materials: Res<ExplosionMaterial>,
     mut plate: Query<Entity, With<Plate>>,
     mut explosion: Query<Entity, With<Explosion>>,
     plate_materials: Res<PlateMaterial>,
+    mut gravity: ResMut<GravityLevel>,
 ) {
     for (player_transform, player_sprite) in player_positions.iter_mut() {
         for (plate_transform, plate_sprite) in plates.iter_mut() {
@@ -30,7 +32,13 @@ pub fn init(
             if collision.is_some() {
                 // explosion::spawn(commands, &materials);
                 // std::thread::sleep(std::time::Duration::from_secs(3));
-                level::reset(commands, &mut plate, &mut explosion, &plate_materials)
+                level::reset(
+                    commands,
+                    &mut plate,
+                    &mut explosion,
+                    &plate_materials,
+                    &mut gravity,
+                )
             }
         }
     }

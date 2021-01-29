@@ -10,7 +10,8 @@ use rand::prelude::SliceRandom;
 use rand::{thread_rng, Rng};
 
 const LEVEL_FLOOR_WIDTH: i32 = 10;
-const LEVEL_PLATFORM_LOCATIONS: [(f32, f32); 3] = [(-450., 220.), (450., -260.), (125., 140.)];
+const LEVEL_PLATFORM_LOCATIONS: [(f32, f32); 4] =
+    [(-450., 220.), (450., -260.), (125., 140.), (-450., -260.)];
 
 pub fn init(
     commands: &mut Commands,
@@ -29,6 +30,7 @@ pub fn spawn(
     plate_materials: Res<PlateMaterial>,
     mut explosion: Query<Entity, With<Explosion>>,
     mut plate: Query<Entity, With<Plate>>,
+    mut gravity: ResMut<GravityLevel>,
 ) {
     let starting_point = -((LEVEL_FLOOR_WIDTH * PLATFORM_WIDTH as i32) / 2);
     for i in 0..LEVEL_FLOOR_WIDTH {
@@ -39,7 +41,13 @@ pub fn spawn(
     platform::spawn(commands, &platform_materials, Vec2::new(100., 100.));
     platform::spawn(commands, &platform_materials, Vec2::new(-420., 180.));
     platform::spawn(commands, &platform_materials, Vec2::new(-820., 180.));
-    reset(commands, &mut plate, &mut explosion, &plate_materials);
+    reset(
+        commands,
+        &mut plate,
+        &mut explosion,
+        &plate_materials,
+        &mut gravity,
+    );
     // pressure_plate::spawn(commands, &plate_materials, &(125., 140.));
 }
 
@@ -48,6 +56,7 @@ pub fn reset(
     mut plate: &mut Query<Entity, With<Plate>>,
     mut explosion: &mut Query<Entity, With<Explosion>>,
     plate_materials: &Res<PlateMaterial>,
+    mut gravity: &mut ResMut<GravityLevel>,
 ) {
     for entity in plate.iter_mut() {
         commands.remove::<SpriteBundle>(entity);
@@ -62,4 +71,5 @@ pub fn reset(
         &plate_materials,
         LEVEL_PLATFORM_LOCATIONS.choose(&mut thread_rng()).unwrap(),
     );
+    gravity.0 = thread_rng().gen_range(1.0..6.0);
 }

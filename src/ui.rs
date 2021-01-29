@@ -1,3 +1,4 @@
+use crate::systems::gravity::GravityLevel;
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
 
@@ -13,7 +14,7 @@ pub fn init(commands: &mut Commands, asset_server: AssetServer) {
                 position_type: PositionType::Absolute,
                 position: Rect {
                     top: Val::Px(5.0),
-                    right: Val::Px(15.0),
+                    left: Val::Px(15.0),
                     ..Default::default()
                 },
                 ..Default::default()
@@ -23,7 +24,7 @@ pub fn init(commands: &mut Commands, asset_server: AssetServer) {
                 font: font.clone(),
                 style: TextStyle {
                     font_size: 20.0,
-                    color: Color::RED,
+                    color: Color::BLACK,
                     alignment: TextAlignment::default(),
                 },
             },
@@ -36,6 +37,7 @@ pub fn update_text_diagnostic(
     time: Res<Time>,
     diagnostics: Res<Diagnostics>,
     mut query: Query<&mut Text, With<TextChanges>>,
+    gravity: Res<GravityLevel>,
 ) {
     for mut text in query.iter_mut() {
         let mut fps = 0.0;
@@ -53,6 +55,12 @@ pub fn update_text_diagnostic(
             }
         }
 
-        text.value = format!("{:.1} fps, {:.3} ms/frame", fps, frame_time * 1000.0).into();
+        text.value = format!(
+            "{:.1} fps, {:.3} ms/frame\n{:.2} gravity",
+            fps,
+            frame_time * 1000.0,
+            gravity.0
+        )
+        .into();
     }
 }

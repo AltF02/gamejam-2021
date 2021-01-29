@@ -8,6 +8,7 @@ pub struct Player;
 pub struct PlayerMaterial(Handle<ColorMaterial>);
 #[derive(Debug)]
 pub struct PlayerState {
+    pub dead: bool,
     pub jumping: bool,
     pub grounded: bool,
     pub collision: Option<Collision>,
@@ -16,6 +17,7 @@ pub struct PlayerState {
 impl Default for PlayerState {
     fn default() -> Self {
         PlayerState {
+            dead: false,
             jumping: false,
             grounded: false,
             collision: None,
