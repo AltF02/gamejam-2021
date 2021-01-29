@@ -6,7 +6,7 @@ mod ui;
 
 use crate::models::player;
 use crate::setup::setup;
-use crate::systems::{gravity, movement, plates};
+use crate::systems::{death, gravity, movement, plates};
 
 use bevy::prelude::*;
 use bevy_diagnostic::{FrameTimeDiagnosticsPlugin, PrintDiagnosticsPlugin};
@@ -18,7 +18,6 @@ use simple_logger::SimpleLogger;
 use bevy_dylib;
 
 // TODO Make jetpack toggle
-// TODO Add death system
 
 #[bevy_main]
 fn main() {
@@ -46,6 +45,7 @@ fn main() {
         .add_system(movement::init.system())
         .add_system(gravity::init.system())
         .add_system(plates::init.system())
+        .add_system(death::init.system())
         .add_system(ui::update_text_diagnostic.system())
         .add_plugins(DefaultPlugins)
         .add_plugin(FrameTimeDiagnosticsPlugin::default())

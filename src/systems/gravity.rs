@@ -8,7 +8,7 @@ pub fn init(
     mut player_state: ResMut<PlayerState>,
     mut level: Res<GravityLevel>,
 ) {
-    if player_state.jumping || player_state.grounded {
+    if player_state.jumping || player_state.grounded || player_state.dead {
         return;
     }
 

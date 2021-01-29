@@ -1,11 +1,12 @@
 use crate::models::platform::{PlatformMaterial, PLATFORM_WIDTH};
-use crate::models::pressure_plate;
 use crate::models::pressure_plate::{Plate, PlateMaterial};
 use crate::models::{explosion, platform};
+use crate::models::{pressure_plate, spikes};
 use crate::systems::gravity::GravityLevel;
 use bevy::prelude::*;
 
 use crate::models::explosion::Explosion;
+use crate::models::spikes::SpikesMaterial;
 use rand::prelude::SliceRandom;
 use rand::{thread_rng, Rng};
 
@@ -22,12 +23,14 @@ pub fn init(
     platform::init(commands, &asset_server, materials);
     pressure_plate::init(commands, &asset_server, materials);
     explosion::init(commands, &asset_server, materials);
+    spikes::init(commands, &asset_server, materials);
 }
 
 pub fn spawn(
     commands: &mut Commands,
     platform_materials: Res<PlatformMaterial>,
     plate_materials: Res<PlateMaterial>,
+    spikes_materials: Res<SpikesMaterial>,
     mut explosion: Query<Entity, With<Explosion>>,
     mut plate: Query<Entity, With<Plate>>,
     mut gravity: ResMut<GravityLevel>,
@@ -41,6 +44,8 @@ pub fn spawn(
     platform::spawn(commands, &platform_materials, Vec2::new(100., 100.));
     platform::spawn(commands, &platform_materials, Vec2::new(-420., 180.));
     platform::spawn(commands, &platform_materials, Vec2::new(-820., 180.));
+    spikes::spawn(commands, &spikes_materials, &(-420., 130.), 180.);
+    spikes::spawn(commands, &spikes_materials, &(30., -250.), 0.);
     reset(
         commands,
         &mut plate,

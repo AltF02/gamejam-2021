@@ -5,7 +5,9 @@ pub const PLAYER_HEIGHT: f32 = 135.;
 pub const PLAYER_WIDTH: f32 = 54.;
 
 pub struct Player;
-pub struct PlayerMaterial(Handle<ColorMaterial>);
+pub struct PlayerOnMaterial(pub(crate) Handle<ColorMaterial>);
+pub struct PlayerOffMaterial(pub(crate) Handle<ColorMaterial>);
+
 #[derive(Debug)]
 pub struct PlayerState {
     pub dead: bool,
@@ -30,25 +32,22 @@ pub fn init(
     materials: &mut ResMut<Assets<ColorMaterial>>,
     asset_server: AssetServer,
 ) {
-    let texture = asset_server.load("sprites/player_on.png");
+    let texture_on = asset_server.load("sprites/player_on.png");
 
     commands
-        .insert_resource(PlayerMaterial(materials.add(texture.into())))
+        .insert_resource(PlayerOnMaterial(materials.add(texture_on.into())))a
         .insert_resource(PlayerState {
             ..Default::default()
         });
 }
 
-pub fn spawn(commands: &mut Commands, materials: Res<PlayerMaterial>) {
+pub fn spawn(commands: &mut Commands, materials: Res<PlayerOnMaterial>) {
     commands
         .spawn(SpriteBundle {
             material: materials.0.clone(),
             sprite: Sprite::new(Vec2::new(PLAYER_WIDTH, PLAYER_HEIGHT)),
+            transform: Transform::from_translation(Vec3::new(-300., 0., 0.)),
             ..Default::default()
         })
         .with(Player);
-}
-
-pub fn toggle_jetpack(toggle: bool, sprite: Sprite) {
-    let file = if toggle { "toggle_on" } else { "toggle_off" };
 }

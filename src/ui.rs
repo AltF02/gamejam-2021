@@ -1,3 +1,4 @@
+use crate::models::points::Points;
 use crate::systems::gravity::GravityLevel;
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
@@ -38,6 +39,7 @@ pub fn update_text_diagnostic(
     diagnostics: Res<Diagnostics>,
     mut query: Query<&mut Text, With<TextChanges>>,
     gravity: Res<GravityLevel>,
+    points: Res<Points>,
 ) {
     for mut text in query.iter_mut() {
         let mut fps = 0.0;
@@ -56,10 +58,11 @@ pub fn update_text_diagnostic(
         }
 
         text.value = format!(
-            "{:.1} fps, {:.3} ms/frame\n{:.2} gravity",
+            "{:.1} fps, {:.3} ms/frame\ngravity: {:.2}\npoints: {}",
             fps,
             frame_time * 1000.0,
-            gravity.0
+            gravity.0,
+            points.0
         )
         .into();
     }
