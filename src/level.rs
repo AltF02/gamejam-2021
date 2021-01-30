@@ -64,9 +64,12 @@ pub fn reset(
     gravity: &mut ResMut<GravityLevel>,
 ) -> bool {
     let mut point = false;
-    if let Some(entity) = plate.iter_mut().next() {
-        commands.remove::<SpriteBundle>(entity);
-        point = true;
+    match plate.iter_mut().next() {
+        Some(entity) => {
+            commands.remove::<SpriteBundle>(entity);
+            point = true;
+        }
+        None => {}
     }
 
     for entity in explosion.iter_mut() {
