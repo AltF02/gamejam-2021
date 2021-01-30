@@ -1,20 +1,16 @@
 use crate::models::platform::Platform;
-use crate::models::player::{Player, PlayerOffMaterial, PlayerOnMaterial, PlayerState};
+use crate::models::player::{Player, PlayerState};
 use crate::systems::collision::is_colliding_with_walls;
 use crate::systems::gravity::GravityLevel;
 use bevy::prelude::*;
 use bevy::sprite::collide_aabb::{collide, Collision};
-use log::debug;
 use std::mem::discriminant;
 
 const SPEED: f32 = 3.;
 
 pub fn init(
     keyboard_input: Res<Input<KeyCode>>,
-    mut player_positions: Query<
-        (&mut Transform, &Sprite, &mut Handle<ColorMaterial>),
-        With<Player>,
-    >,
+    mut player_positions: Query<(&mut Transform, &Sprite), With<Player>>,
     mut player: ResMut<PlayerState>,
     mut windows: ResMut<Windows>,
     mut platforms: Query<(&mut Transform, &Sprite), With<Platform>>,
@@ -26,7 +22,7 @@ pub fn init(
         return;
     }
 
-    for (mut transform, player_sprite, mut player_material) in player_positions.iter_mut() {
+    for (mut transform, player_sprite) in player_positions.iter_mut() {
         if is_colliding_with_walls(window, &mut transform) {
             return;
         }
@@ -53,7 +49,6 @@ pub fn init(
                 Collision::Top => transform.translation.y -= 0.5,
                 Collision::Left => transform.translation.x += 0.5,
                 Collision::Right => transform.translation.x -= 0.5,
-                _ => {}
             }
         }
 

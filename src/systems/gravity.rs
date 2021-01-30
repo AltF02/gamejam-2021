@@ -5,8 +5,8 @@ pub struct GravityLevel(pub f32);
 
 pub fn init(
     mut player_positions: Query<&mut Transform, With<Player>>,
-    mut player_state: ResMut<PlayerState>,
-    mut level: Res<GravityLevel>,
+    player_state: ResMut<PlayerState>,
+    level: Res<GravityLevel>,
 ) {
     if player_state.jumping || player_state.grounded || player_state.dead {
         return;

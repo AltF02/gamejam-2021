@@ -6,7 +6,7 @@ pub const PLAYER_WIDTH: f32 = 54.;
 
 pub struct Player;
 pub struct PlayerOnMaterial(pub(crate) Handle<ColorMaterial>);
-pub struct PlayerOffMaterial(pub(crate) Handle<ColorMaterial>);
+// pub struct PlayerOffMaterial(pub(crate) Handle<ColorMaterial>);
 
 #[derive(Debug)]
 pub struct PlayerState {
@@ -35,7 +35,7 @@ pub fn init(
     let texture_on = asset_server.load("sprites/player_on.png");
 
     commands
-        .insert_resource(PlayerOnMaterial(materials.add(texture_on.into())))a
+        .insert_resource(PlayerOnMaterial(materials.add(texture_on.into())))
         .insert_resource(PlayerState {
             ..Default::default()
         });

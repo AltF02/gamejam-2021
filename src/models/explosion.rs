@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy::utils::Duration;
 
 pub struct Explosion;
 pub struct ExplosionMaterial(Handle<ColorMaterial>);

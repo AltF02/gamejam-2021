@@ -58,17 +58,19 @@ pub fn spawn(
 
 pub fn reset(
     commands: &mut Commands,
-    mut plate: &mut Query<Entity, With<Plate>>,
-    mut explosion: &mut Query<Entity, With<Explosion>>,
+    plate: &mut Query<Entity, With<Plate>>,
+    explosion: &mut Query<Entity, With<Explosion>>,
     plate_materials: &Res<PlateMaterial>,
-    mut gravity: &mut ResMut<GravityLevel>,
-) {
-    for entity in plate.iter_mut() {
+    gravity: &mut ResMut<GravityLevel>,
+) -> bool {
+    let mut point = false;
+    if let Some(entity) = plate.iter_mut().next() {
         commands.remove::<SpriteBundle>(entity);
+        point = true;
     }
 
     for entity in explosion.iter_mut() {
-        commands.remove::<SpriteBundle>(entity);
+        commands.remove_one::<SpriteBundle>(entity);
     }
 
     pressure_plate::spawn(
@@ -77,4 +79,5 @@ pub fn reset(
         LEVEL_PLATFORM_LOCATIONS.choose(&mut thread_rng()).unwrap(),
     );
     gravity.0 = thread_rng().gen_range(1.0..6.0);
+    point
 }

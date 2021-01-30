@@ -22,7 +22,7 @@ pub fn init(commands: &mut Commands, asset_server: AssetServer) {
             },
             text: Text {
                 value: "".to_string(),
-                font: font.clone(),
+                font,
                 style: TextStyle {
                     font_size: 20.0,
                     color: Color::BLACK,

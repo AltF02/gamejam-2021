@@ -1,3 +1,5 @@
+#![allow(clippy::too_many_arguments)]
+
 mod level;
 mod models;
 mod setup;
@@ -9,13 +11,9 @@ use crate::setup::setup;
 use crate::systems::{death, gravity, movement, plates};
 
 use bevy::prelude::*;
-use bevy_diagnostic::{FrameTimeDiagnosticsPlugin, PrintDiagnosticsPlugin};
+use bevy_diagnostic::FrameTimeDiagnosticsPlugin;
 use log::LevelFilter;
 use simple_logger::SimpleLogger;
-
-#[cfg(debug_assertions)]
-#[allow(unused_imports)]
-use bevy_dylib;
 
 // TODO Make jetpack toggle
 
