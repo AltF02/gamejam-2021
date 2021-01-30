@@ -5,4 +5,4 @@ mkdir build/linux
 cp ./release/gamejam-2021 build/linux
 cp -avr ./assets ./build/linux
 zip -r build/gamejam-2021-linux.zip ./build/linux/*
-rm -rf ./build/linux
+#rm -rf ./build/linux
