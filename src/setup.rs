@@ -9,7 +9,7 @@ pub fn setup(
     mut materials: ResMut<Assets<ColorMaterial>>,
     asset_server: Res<AssetServer>,
 ) {
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(OrthographicCameraBundle::new_2d());
     commands.insert_resource(Points(0));
     player::init(commands, &mut materials, asset_server.clone());
     level::init(commands, asset_server.clone(), &mut materials);

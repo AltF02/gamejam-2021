@@ -10,6 +10,7 @@ use crate::models::player;
 use crate::setup::setup;
 use crate::systems::{death, gravity, movement, plates};
 
+use crate::systems::movement::MovementTimer;
 use bevy::prelude::*;
 use bevy_diagnostic::FrameTimeDiagnosticsPlugin;
 use log::LevelFilter;
@@ -17,7 +18,6 @@ use simple_logger::SimpleLogger;
 
 // TODO Make jetpack toggle
 
-#[bevy_main]
 fn main() {
     #[cfg(debug_assertions)]
     SimpleLogger::new()
@@ -27,12 +27,12 @@ fn main() {
 
     #[cfg(not(debug_assertions))]
     SimpleLogger::new()
-        .with_level(LevelFilter::Error)
+        .with_level(LevelFilter::Debug)
         .init()
         .unwrap();
 
     App::build()
-        .add_resource(WindowDescriptor {
+        .insert_resource(WindowDescriptor {
             title: "Rusty Rocket".to_string(),
             vsync: true,
             ..Default::default()

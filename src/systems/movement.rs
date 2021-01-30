@@ -8,6 +8,8 @@ use std::mem::discriminant;
 
 const SPEED: f32 = 3.;
 
+pub struct MovementTimer(pub Timer);
+
 pub fn init(
     keyboard_input: Res<Input<KeyCode>>,
     mut player_positions: Query<(&mut Transform, &Sprite), With<Player>>,

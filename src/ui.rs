@@ -7,7 +7,7 @@ pub struct TextChanges;
 
 pub fn init(commands: &mut Commands, asset_server: AssetServer) {
     let font = asset_server.load("fonts/FiraMono-Medium.ttf");
-    commands.spawn(CameraUiBundle::default());
+    commands.spawn(UiCameraBundle::default());
     commands
         .spawn(TextBundle {
             style: Style {
@@ -21,13 +21,18 @@ pub fn init(commands: &mut Commands, asset_server: AssetServer) {
                 ..Default::default()
             },
             text: Text {
-                value: "".to_string(),
-                font,
-                style: TextStyle {
-                    font_size: 20.0,
-                    color: Color::BLACK,
-                    alignment: TextAlignment::default(),
-                },
+                sections: vec![
+                    TextSection {
+                        value: "".to_string(),
+
+                        style: TextStyle {
+                            font,
+                            font_size: 20.0,
+                            color: Color::BLACK,
+                        }
+                    }
+                ],
+                alignment: Default::default()
             },
             ..Default::default()
         })
@@ -57,7 +62,7 @@ pub fn update_text_diagnostic(
             }
         }
 
-        text.value = format!(
+        text.sections[0].value = format!(
             "{:.1} fps, {:.3} ms/frame\ngravity: {:.2}\npoints: {}",
             fps,
             frame_time * 1000.0,
